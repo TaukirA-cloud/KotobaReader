@@ -1,2 +1,2 @@
-ctranslate2==4.7.1
+ctranslate2==4.8.5
 sentencepiece==0.2.1
