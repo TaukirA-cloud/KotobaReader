@@ -1,0 +1,83 @@
+<Window x:Class="KotobaReader.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Title="KotobaReader · Read beyond the language" Width="1480" Height="940" MinWidth="1050" MinHeight="680" Style="{StaticResource {x:Type Window}}"
+ AllowDrop="True" Drop="OnDrop" PreviewKeyDown="OnKeyDown" Closing="OnClosing" Loaded="OnLoaded">
+ <Grid Background="{StaticResource Background}">
+  <Grid.RowDefinitions><RowDefinition Height="76"/><RowDefinition Height="*"/><RowDefinition Height="38"/></Grid.RowDefinitions>
+  <Border BorderBrush="#2A3446" BorderThickness="0,0,0,1" Padding="24,0">
+   <DockPanel VerticalAlignment="Center">
+    <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center">
+     <Border Background="{StaticResource Accent}" CornerRadius="9" Width="38" Height="38" Margin="0,0,12,0"><TextBlock Text="言" FontSize="24" Foreground="#10241F" HorizontalAlignment="Center" VerticalAlignment="Center"/></Border>
+     <StackPanel><TextBlock Text="KOTOBA READER" FontWeight="Bold" FontSize="17"/><TextBlock Text="READ BEYOND THE LANGUAGE" FontSize="9" Foreground="{StaticResource Muted}" Margin="0,3,0,0"/></StackPanel>
+    </StackPanel>
+    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right"><Button Content="Demo" Click="OpenDemo" ToolTip="Open an original, locally generated sample comic"/><Button Content="Open folder" Click="OpenFolder"/><Button Content="Open comic" Style="{StaticResource Primary}" Click="OpenArchive"/><Button Content="Settings" Click="OpenSettings" Margin="10,0,0,0"/></StackPanel>
+   </DockPanel>
+  </Border>
+  <Grid Grid.Row="1">
+   <Grid.ColumnDefinitions><ColumnDefinition x:Name="LibraryColumn" Width="230" MinWidth="170"/><ColumnDefinition Width="4"/><ColumnDefinition Width="*"/><ColumnDefinition Width="4"/><ColumnDefinition x:Name="TranslationColumn" Width="330" MinWidth="280"/></Grid.ColumnDefinitions>
+   <Border Background="{StaticResource Panel}" Padding="14,12">
+    <Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+     <DockPanel><TextBlock Text="YOUR LIBRARY" Style="{StaticResource Label}"/><Button DockPanel.Dock="Right" Content="Remove" Click="RemoveBook" Padding="7,4" Margin="8,8,0,0" HorizontalAlignment="Right" ToolTip="Remove the selected entry; comic files are kept"/></DockPanel>
+     <TextBox x:Name="LibrarySearch" Grid.Row="1" Margin="0,4,0,12" TextChanged="SearchLibrary" ToolTip="Search library titles" AutomationProperties.Name="Search library"/>
+     <TabControl Grid.Row="2">
+      <TabItem Header="Books"><ListBox x:Name="LibraryList" MouseDoubleClick="OpenLibraryBook" KeyDown="LibraryKeyDown"><ListBox.ItemTemplate><DataTemplate><StackPanel><TextBlock Text="{Binding Title}" FontWeight="SemiBold" TextWrapping="Wrap"/><TextBlock Text="{Binding Progress}" Foreground="{StaticResource Muted}" FontSize="11" Margin="0,5,0,0"/></StackPanel></DataTemplate></ListBox.ItemTemplate></ListBox></TabItem>
+      <TabItem Header="Pages"><ListBox x:Name="PagesList" SelectionChanged="SelectPage" DisplayMemberPath="Name"/></TabItem>
+      <TabItem Header="Saved"><ListBox x:Name="BookmarksList" SelectionChanged="SelectBookmark"/></TabItem>
+     </TabControl>
+     <TextBlock Grid.Row="3" Text="CBZ · ZIP · IMAGE FOLDERS&#10;Double-click a book to continue." FontSize="10" Foreground="{StaticResource Muted}" Margin="4,12,0,0" TextWrapping="Wrap"/>
+    </Grid>
+   </Border>
+   <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch" Background="#263044"/>
+   <Grid Grid.Column="2">
+    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+    <Border Padding="18,14" Background="#151B26"><DockPanel><Button DockPanel.Dock="Right" Content="{Binding Bookmark}" Click="ToggleBookmark" IsEnabled="{Binding BookOpen}" Padding="10,6" HorizontalAlignment="Right"/><StackPanel><TextBlock Text="{Binding Title}" FontSize="17" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/><TextBlock Text="{Binding PageLabel}" Foreground="{StaticResource Muted}" FontSize="10" Margin="0,6,0,0"/></StackPanel></DockPanel></Border>
+    <ScrollViewer x:Name="ReaderScroll" Grid.Row="1" Background="#0B0E14" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" SizeChanged="ReaderResized" PreviewMouseWheel="ReaderWheel" PanningMode="Both">
+     <Grid x:Name="PageSurface" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Transparent">
+      <Image x:Name="PageImage" Source="{Binding Image}" Stretch="Fill" RenderOptions.BitmapScalingMode="HighQuality"/>
+      <Canvas x:Name="SelectionCanvas" Background="Transparent" MouseLeftButtonDown="SelectionStart" MouseMove="SelectionMove" MouseLeftButtonUp="SelectionEnd" LostMouseCapture="SelectionLost"><Rectangle x:Name="SelectionRectangle" Stroke="{StaticResource Accent}" StrokeThickness="2" Fill="#3073E2C5" Visibility="Collapsed"/></Canvas>
+     </Grid>
+    </ScrollViewer>
+    <Border Grid.Row="1" Background="#0B0E14" Padding="35" IsHitTestVisible="False">
+     <Border.Style><Style TargetType="Border"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding BookOpen}" Value="False"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></Border.Style>
+     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="400"><TextBlock Text="A whole world.&#10;One panel at a time." FontSize="35" FontWeight="Light" TextAlignment="Center"/><TextBlock Text="Your comics, your language. Open a book to read, select dialogue, and translate on your own device." Foreground="{StaticResource Muted}" FontSize="15" TextAlignment="Center" TextWrapping="Wrap" Margin="0,22,0,0"/><TextBlock Text="DROP A COMIC OR TRY THE DEMO ABOVE" Foreground="{StaticResource Accent}" FontSize="10" TextAlignment="Center" Margin="0,28,0,0"/></StackPanel>
+    </Border>
+    <Border Grid.Row="2" Padding="12" Background="#151B26"><StackPanel>
+     <ProgressBar Value="{Binding Progress}" Maximum="100" Height="3" Foreground="{StaticResource Accent}" Background="#293347" BorderThickness="0" Margin="0,0,0,12"/>
+     <WrapPanel HorizontalAlignment="Center"><Button Content="‹" Click="Previous" ToolTip="Previous page" AutomationProperties.Name="Previous page"/><TextBox x:Name="JumpBox" Width="48" Padding="5" Margin="0,0,6,0" VerticalContentAlignment="Center" KeyDown="JumpToPage" ToolTip="Page number; press Enter" AutomationProperties.Name="Page number"/><Button Content="›" Click="Next" ToolTip="Next page" AutomationProperties.Name="Next page"/>
+      <ComboBox x:Name="FitMode" Width="94" Margin="6,0" SelectionChanged="FitChanged" ToolTip="Page fitting" AutomationProperties.Name="Page fitting"><ComboBoxItem Content="Fit page" Tag="Page"/><ComboBoxItem Content="Fit width" Tag="Width"/><ComboBoxItem Content="Actual size" Tag="Actual"/></ComboBox>
+      <Button Content="−" Click="ZoomOut" ToolTip="Zoom out"/><TextBlock x:Name="ZoomLabel" Text="100%" Width="43" VerticalAlignment="Center" TextAlignment="Center" Margin="0,0,6,0"/><Button Content="+" Click="ZoomIn" ToolTip="Zoom in"/><CheckBox x:Name="RightToLeft" Content="Manga" Checked="PreferenceChanged" Unchecked="PreferenceChanged" Margin="8,0,0,0" VerticalAlignment="Center" ToolTip="Right arrow goes backward; left arrow goes forward"/>
+     </WrapPanel>
+    </StackPanel></Border>
+   </Grid>
+   <GridSplitter Grid.Column="3" Width="4" HorizontalAlignment="Stretch" Background="#263044"/>
+   <Border Grid.Column="4" Background="{StaticResource Panel}" Padding="18,12"><Grid>
+    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+    <DockPanel><TextBlock Text="TRANSLATION STUDIO" Style="{StaticResource Label}"/><TextBlock DockPanel.Dock="Right" Text="LOCAL" Foreground="{StaticResource Accent}" FontSize="9" Margin="12,15,0,0" HorizontalAlignment="Right"/></DockPanel>
+    <Grid Grid.Row="1" Margin="0,8,0,14"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="24"/><ColumnDefinition/></Grid.ColumnDefinitions>
+     <ComboBox x:Name="SourceLanguage" SelectionChanged="LanguageChanged" AutomationProperties.Name="Source language"><ComboBoxItem Content="Japanese" Tag="ja"/><ComboBoxItem Content="English" Tag="en"/><ComboBoxItem Content="Chinese" Tag="zh"/><ComboBoxItem Content="Korean" Tag="ko"/><ComboBoxItem Content="Spanish" Tag="es"/><ComboBoxItem Content="French" Tag="fr"/><ComboBoxItem Content="German" Tag="de"/></ComboBox>
+     <TextBlock Grid.Column="1" Text="→" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+     <ComboBox x:Name="TargetLanguage" Grid.Column="2" SelectionChanged="LanguageChanged" AutomationProperties.Name="Target language"><ComboBoxItem Content="English" Tag="en"/><ComboBoxItem Content="Japanese" Tag="ja"/><ComboBoxItem Content="Spanish" Tag="es"/><ComboBoxItem Content="French" Tag="fr"/><ComboBoxItem Content="German" Tag="de"/><ComboBoxItem Content="Chinese" Tag="zh"/><ComboBoxItem Content="Korean" Tag="ko"/></ComboBox>
+    </Grid>
+    <TabControl Grid.Row="2" x:Name="StudioTabs">
+     <TabItem Header="Translate"><ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><StackPanel>
+      <TextBlock Text="Drag a box over dialogue to recognize it. Correct the text, then translate." Foreground="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,6,0,12"/>
+      <CheckBox x:Name="SelectionMode" Content="Select dialogue on page" IsChecked="True" Checked="SelectionModeChanged" Unchecked="SelectionModeChanged"/>
+      <TextBlock Text="TEXT LAYOUT" Style="{StaticResource Label}"/><ComboBox x:Name="OcrLayout" SelectionChanged="LayoutChanged" AutomationProperties.Name="OCR layout"><ComboBoxItem Content="Vertical Japanese" Tag="Vertical"/><ComboBoxItem Content="Single text block" Tag="Block"/><ComboBoxItem Content="Automatic / whole page" Tag="Auto"/></ComboBox>
+      <WrapPanel Margin="0,10,0,0"><Button Content="Recognize selection" Click="RecognizeSelection" Padding="10,7"/><Button Content="Whole page" Click="RecognizePage" Padding="10,7" Margin="0,5,0,0"/></WrapPanel>
+      <TextBlock x:Name="SelectionHint" Text="No selection yet" Foreground="{StaticResource Muted}" FontSize="11" Margin="0,8,0,0"/>
+      <TextBlock Text="ORIGINAL · EDITABLE" Style="{StaticResource Label}"/><TextBox x:Name="OriginalText" Text="{Binding Original, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="110" MaxHeight="260" VerticalScrollBarVisibility="Auto" FontSize="16" MaxLength="8000" AutomationProperties.Name="Original text"/>
+      <Button Content="Translate offline →" Click="TranslateText" Style="{StaticResource Primary}" Margin="0,12,0,0"/>
+      <TextBlock Text="TRANSLATION" Style="{StaticResource Label}"/><TextBox Text="{Binding Translated, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="125" MaxHeight="280" VerticalScrollBarVisibility="Auto" FontSize="16" AutomationProperties.Name="Translated text"/>
+      <WrapPanel Margin="0,12,0,12"><Button Content="Save note" Click="SaveNote"/><Button Content="Copy" Click="CopyTranslation"/><Button Content="Export" Click="ExportNotes"/></WrapPanel>
+      <TextBlock Text="Machine translations can miss context. Check names, sound effects, and stylized lettering." FontSize="11" Foreground="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,4,0,12"/>
+     </StackPanel></ScrollViewer></TabItem>
+     <TabItem Header="Notes"><Grid><Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+      <ListBox x:Name="NotesList" SelectionChanged="SelectNote"><ListBox.ItemTemplate><DataTemplate><StackPanel><TextBlock Text="{Binding Caption}" Foreground="{StaticResource Accent}" FontSize="10"/><TextBlock Text="{Binding Original}" TextWrapping="Wrap" MaxHeight="60" Margin="0,7,0,5"/><TextBlock Text="{Binding Translated}" TextWrapping="Wrap" Foreground="{StaticResource Muted}" MaxHeight="90"/></StackPanel></DataTemplate></ListBox.ItemTemplate></ListBox>
+      <WrapPanel Grid.Row="1" Margin="0,8,0,0"><Button Content="Delete note" Click="DeleteNote"/><Button Content="Export notes" Click="ExportNotes"/></WrapPanel>
+     </Grid></TabItem>
+    </TabControl>
+    <Border Grid.Row="3" BorderBrush="#344159" BorderThickness="0,1,0,0" Padding="0,12,0,0" Margin="0,12,0,0"><StackPanel><TextBlock Text="{Binding EngineStatus}" Foreground="{StaticResource Muted}" TextWrapping="Wrap" FontSize="11"/><WrapPanel Margin="0,9,0,0"><Button Content="Check engine" Click="CheckEngine" Padding="10,6"/><Button Content="Cancel" Click="CancelOperation" Padding="10,6" IsEnabled="{Binding Busy}"/></WrapPanel></StackPanel></Border>
+   </Grid></Border>
+  </Grid>
+  <Border Grid.Row="2" Background="#1E2837" Padding="16,0"><DockPanel VerticalAlignment="Center"><TextBlock DockPanel.Dock="Right" Text="F11 focus · Ctrl+O open · Ctrl+wheel zoom" Foreground="{StaticResource Muted}" FontSize="10" Margin="12,0,0,0"/><TextBlock Text="{Binding Status}" TextTrimming="CharacterEllipsis" FontSize="11"/></DockPanel></Border>
+ </Grid>
+</Window>

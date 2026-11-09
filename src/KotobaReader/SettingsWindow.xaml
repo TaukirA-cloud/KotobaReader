@@ -1,0 +1,15 @@
+<Window x:Class="KotobaReader.SettingsWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="KotobaReader settings" Width="650" Height="640" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Style="{StaticResource {x:Type Window}}">
+ <Grid Margin="26"><Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+  <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel>
+   <TextBlock Text="Local engine settings" FontSize="24" FontWeight="SemiBold"/>
+   <TextBlock Text="Leave fields empty to use automatic discovery. No API keys or cloud services are needed." Foreground="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,12,0,4"/>
+   <TextBlock Text="PYTHON EXECUTABLE" Style="{StaticResource Label}"/><TextBox x:Name="PythonBox" AutomationProperties.Name="Python executable"/>
+   <TextBlock Text="TESSERACT EXECUTABLE" Style="{StaticResource Label}"/><TextBox x:Name="TesseractBox" AutomationProperties.Name="Tesseract executable"/>
+   <TextBlock Text="TRANSLATION MODELS DIRECTORY" Style="{StaticResource Label}"/><TextBox x:Name="ModelsBox" AutomationProperties.Name="Models directory"/>
+   <TextBlock Text="TESSDATA DIRECTORY" Style="{StaticResource Label}"/><TextBox x:Name="TessdataBox" AutomationProperties.Name="Tessdata directory"/>
+   <TextBlock Text="SETUP" Style="{StaticResource Label}"/><TextBlock x:Name="SetupText" TextWrapping="Wrap" Foreground="{StaticResource Muted}"/>
+   <TextBlock Text="LIBRARY STORAGE" Style="{StaticResource Label}"/><TextBlock x:Name="StorageText" TextWrapping="Wrap" Foreground="{StaticResource Muted}"/>
+  </StackPanel></ScrollViewer>
+  <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0"><Button Content="Cancel" IsCancel="True"/><Button Content="Save settings" IsDefault="True" Style="{StaticResource Primary}" Click="Save"/></StackPanel>
+ </Grid>
+</Window>

@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{41319901-CF57-45D7-9BBA-8F3F73D61A7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KotobaReader", "src\KotobaReader\KotobaReader.csproj", "{A4B2EC9C-8C58-48B2-859D-6F8C9D97B331}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KotobaReader.Core", "src\KotobaReader.Core\KotobaReader.Core.csproj", "{C2C1C85B-0396-4C2E-819D-41D64C2BE9F3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EB001D2F-2B8D-437C-8005-7771D40DF91D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KotobaReader.Core.Tests", "tests\KotobaReader.Core.Tests\KotobaReader.Core.Tests.csproj", "{E98C92C6-1931-4A74-973B-8051AD8D3A04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KotobaReader.Smoke", "tests\KotobaReader.Smoke\KotobaReader.Smoke.csproj", "{BDD371B7-C0A5-4710-8546-94309075F3FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A4B2EC9C-8C58-48B2-859D-6F8C9D97B331}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4B2EC9C-8C58-48B2-859D-6F8C9D97B331}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4B2EC9C-8C58-48B2-859D-6F8C9D97B331}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4B2EC9C-8C58-48B2-859D-6F8C9D97B331}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2C1C85B-0396-4C2E-819D-41D64C2BE9F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2C1C85B-0396-4C2E-819D-41D64C2BE9F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2C1C85B-0396-4C2E-819D-41D64C2BE9F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2C1C85B-0396-4C2E-819D-41D64C2BE9F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E98C92C6-1931-4A74-973B-8051AD8D3A04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E98C92C6-1931-4A74-973B-8051AD8D3A04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E98C92C6-1931-4A74-973B-8051AD8D3A04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E98C92C6-1931-4A74-973B-8051AD8D3A04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDD371B7-C0A5-4710-8546-94309075F3FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDD371B7-C0A5-4710-8546-94309075F3FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDD371B7-C0A5-4710-8546-94309075F3FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDD371B7-C0A5-4710-8546-94309075F3FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A4B2EC9C-8C58-48B2-859D-6F8C9D97B331} = {41319901-CF57-45D7-9BBA-8F3F73D61A7F}
+		{C2C1C85B-0396-4C2E-819D-41D64C2BE9F3} = {41319901-CF57-45D7-9BBA-8F3F73D61A7F}
+		{E98C92C6-1931-4A74-973B-8051AD8D3A04} = {EB001D2F-2B8D-437C-8005-7771D40DF91D}
+		{BDD371B7-C0A5-4710-8546-94309075F3FB} = {EB001D2F-2B8D-437C-8005-7771D40DF91D}
+	EndGlobalSection
+EndGlobal

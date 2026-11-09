@@ -1,0 +1,37 @@
+**/bin/
+**/obj/
+.vs/
+.idea/
+*.user
+*.suo
+artifacts/
+/KotobaReader.exe
+.venv/
+__pycache__/
+# Keep personal books and downloaded models out of source control.
+books/
+models/
+.tools/
+runtime/
+*.log
+*.tmp
+# Credentials, signing material, and local user data.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+**/library.json*
+data/
+# Publish downloads through GitHub Releases, not source history.
+*.exe
+*.dll
+*.pdb
+*.zip
+*.cbz
+*.cbr
+*.argosmodel
+*.traineddata
+*.onnx
